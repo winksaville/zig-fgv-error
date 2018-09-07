@@ -19,6 +19,33 @@ Test 1/1 works...OK
 All tests passed.
 ```
 
+And I can `use` fgv:
+```bash
+$ cat works-use.zig 
+use @import("fgv.zig");
+test "works" {
+    @import("std").debug.assert(fgv == 123);
+}
+
+$ zig test works-use.zig 
+Test 1/1 works...OK
+All tests passed.
+```
+
+And I can change it to a pointer:
+```bash
+$ cat works-ptr.zig 
+const p_fgv &@import("fgv.zig").fgv;
+test "works" {
+    @import("std").debug.assert(p_fgv.* == 123);
+}
+
+$ zig test works-ptr.zig 
+/home/wink/prgs/ziglang/zig-fgv-error/works-ptr.zig:1:13: error: expected token ';', found '&'
+const p_fgv &@import("fgv.zig").fgv;
+            ^
+```
+
 But importing the global variable as a global const causes a compile error:
 ```bash
 $ cat error.zig 
