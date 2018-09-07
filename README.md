@@ -65,3 +65,19 @@ error-unable-to-evaluate-constant-expression.zig:1:31: error: unable to evaluate
 const fgv = @import("fgv.zig").fgv;
                               ^
 ```
+
+Also, read and write of fgv works with `use`:
+```bash
+$ cat works-use-rw.zig 
+use @import("fgv.zig");
+test "works" {
+    const assert = @import("std").debug.assert;
+    assert(fgv == 123);
+    fgv = 456;
+    assert(fgv == 456);
+}
+
+$ zig test works-use-rw.zig 
+Test 1/1 works...OK
+All tests passed.
+```
