@@ -81,3 +81,20 @@ $ zig test works-use-rw.zig
 Test 1/1 works...OK
 All tests passed.
 ```
+
+But, you get a compiler error when writing to fgv as a local const:
+```bash
+$ cat error-cannot-assign-to-constant.zig
+test "works" {
+    const assert = @import("std").debug.assert;
+    const fgv = @import("fgv.zig").fgv;
+    assert(fgv == 123);
+    fgv = 456; // Compiler error: cannot assign to constant
+    assert(fgv == 456);
+}
+wink@wink-desktop:~/prgs/ziglang/zig-fgv-error (master)
+$ zig test error-cannot-assign-to-constant.zig
+/home/wink/prgs/ziglang/zig-fgv-error/error-cannot-assign-to-constant.zig:5:9: error: cannot assign to constant
+    fgv = 456; // Compiler error: cannot assign to constant
+        ^
+```
