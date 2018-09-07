@@ -21,12 +21,12 @@ All tests passed.
 
 And I can `use` fgv:
 ```bash
-$ cat works-use.zig 
+$ cat works-use.zig
 use @import("fgv.zig");
 test "works" {
     @import("std").debug.assert(fgv == 123);
 }
-
+wink@wink-desktop:~/prgs/ziglang/zig-fgv-error (master)
 $ zig test works-use.zig 
 Test 1/1 works...OK
 All tests passed.
@@ -48,14 +48,20 @@ const p_fgv &@import("fgv.zig").fgv;
 
 But importing the global variable as a global const causes a compile error:
 ```bash
-$ cat error.zig 
+$ cat error-unable-to-evaluate-constant-expression.zig 
 const fgv = @import("fgv.zig").fgv;
 test "error" {
     @import("std").debug.assert(fgv == 123);
 }
-wink@wink-desktop:~/prgs/ziglang/zig-fgv-bug (master)
-$ zig test error.zig 
-error.zig:1:31: error: unable to evaluate constant expression
+
+$ cat error-unable-to-evaluate-constant-expression.zig 
+const fgv = @import("fgv.zig").fgv;
+test "error" {
+    @import("std").debug.assert(fgv == 123);
+}
+
+$ zig test error-unable-to-evaluate-constant-expression.zig 
+error-unable-to-evaluate-constant-expression.zig:1:31: error: unable to evaluate constant expression
 const fgv = @import("fgv.zig").fgv;
                               ^
 ```
